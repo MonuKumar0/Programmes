@@ -1,0 +1,48 @@
+import java.util.*;
+
+public class Test {
+static int min(int a,int b,int c){
+    if(a<b && a<c){
+        return a;
+    }
+    else if(b<a &&b <c){
+        return b;
+    }else
+    {    return c;
+    }
+    
+}
+    public static void main (String[] args) throws java.lang.Exception
+    { 
+        int arr[][]=new int[4000][4000];
+Scanner sc=new Scanner(System.in);
+int t=sc.nextInt();
+String s1,s2;
+
+while(t-->0){
+s1=sc.next();
+s2=sc.next();
+
+int l1=s1.length()+1;
+int l2=s2.length()+1;
+for(int i=0;i<l1;i++){
+    arr[0][i]=i;
+}
+for(int i=0;i<l2;i++){
+    arr[i][0]=i;
+}
+for(int i=1;i<l2;i++){
+    for(int j=1;j<l1;j++){
+        if(s2.charAt(i-1)==s1.charAt(j-1)){
+            arr[i][j]=arr[i-1][j-1];
+        }
+        else{
+            arr[i][j]=min(arr[i-1][j],arr[i][j-1],arr[i-1][j-1])+1;
+        }
+    }
+}
+System.out.println(arr[s2.length()][s1.length()]);
+        
+}
+}
+}
