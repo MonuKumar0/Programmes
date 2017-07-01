@@ -1,0 +1,20 @@
+import java.util.*;
+import java.lang.*;
+
+class Main
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		        Scanner sc=new Scanner(System.in);
+while(true){
+    long t=sc.nextInt();
+    if(t==0){
+        System.out.println();
+        break;
+    }
+    else{
+    System.out.println(t*(t+1)*(2*t+1)/(6));
+    }
+}
+	}
+}
