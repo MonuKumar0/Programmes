@@ -1,0 +1,69 @@
+import java.util.*;
+import java.math.*;
+public class Test 
+{
+static int arr[]=new int[501];
+     public static void main (String[] args) 
+    { 
+       Scanner sc=new Scanner(System.in);
+       int n=sc.nextInt();
+      Vector<node> ve=new Vector<node>();
+     for(int i=0;i<n;i++){
+         ve.add(new node(i+1));
+     }
+     int u,v,c;
+     int w[][]=new int[n+1][n+1];
+     for(int i=1;i<n;i++){
+        u=sc.nextInt();
+        v=sc.nextInt();
+        ve.get(u-1).s.add(ve.get(v-1));
+        ve.get(v-1).s.add(ve.get(u-1));
+        c=sc.nextInt();
+        w[u][v]=c;
+        w[v][u]=c;
+   
+ 
+ }
+         Stack<node> st=solve(1,ve,new boolean[n+1]);
+       node a=st.pop(),temp;
+       int result=0;
+       while(!st.empty()){
+           temp=st.pop();
+           if(w[a.data][temp.data]>0){
+               result=result+w[a.data][temp.data];
+               a=temp;
+           }
+       }
+       System.out.println(result);
+}
+      static Stack<node> solve(int src,Vector<node> ve,boolean[] visited){
+    Queue<node> q=new LinkedList<node>();
+    Stack<node> s=new Stack<node>();
+   node n=ve.get(src-1);
+   q.add(n);
+   visited[n.data]=true;
+   while(q.size()!=0){
+      node e=q.remove();
+        s.add(e);
+        int size=e.s.size();
+        node no;
+        for(int i=0;i<size;i++){
+           no=e.s.get(i);
+           int data=no.data;
+           if(visited[data]==false){
+           q.add(no);
+           visited[data]=true;
+          }
+        }
+        }
+  return s;
+}
+    }
+class node{
+    int data;
+    Vector<node> s;
+    node(int data){
+        this.data=data;
+        s=new Vector<node>();
+    }
+} 
