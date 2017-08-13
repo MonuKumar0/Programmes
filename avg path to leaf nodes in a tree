@@ -1,0 +1,66 @@
+import java.util.*;
+public class Test 
+{
+
+     public static void main (String[] args) 
+    { 
+       Scanner sc=new Scanner(System.in);
+       int n=sc.nextInt();
+      Vector<node> ve=new Vector<node>();
+     for(int i=0;i<n;i++){
+         ve.add(new node(i+1));
+     }
+     int u,v;
+     for(int i=1;i<n;i++){
+        u=sc.nextInt();
+        v=sc.nextInt();
+        ve.get(u-1).s.add(ve.get(v-1));
+        ve.get(v-1).s.add(ve.get(u-1));
+    
+   
+ 
+ }
+         double st=solve(1,ve,new boolean[n+1],n);
+   System.out.println(st);
+}
+      static double solve(int src,Vector<node> ve,boolean[] visited,int nu){
+          int lev[]=new int[nu+1];
+          int sum=0;
+          lev[1]=0;
+          int count=0;
+    Queue<node> q=new LinkedList<node>();
+   node n=ve.get(src-1);
+   q.add(n);
+   Vector<node> v;
+   visited[n.data]=true;
+   while(q.size()!=0){
+      node e=q.remove();
+     int k=1;
+     int size=e.s.size();
+        node no;
+        for(int i=0;i<size;i++){
+           no=e.s.get(i);
+           int data=no.data;
+           if(visited[data]==false){
+           q.add(no);
+           lev[no.data]=lev[e.data]+1;
+           k=0;
+           visited[data]=true;
+          }
+        }
+        if(k==1){
+            count++;
+            sum=sum+lev[e.data];
+        }
+        }
+  return (((double)sum)/(count));
+}
+    }
+class node{
+    int data;
+    Vector<node> s;
+    node(int data){
+        this.data=data;
+        s=new Vector<node>();
+    }
+} 
