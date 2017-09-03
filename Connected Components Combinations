@@ -9,7 +9,7 @@ class node{
 } 
 public class Test 
 {
-
+static final int M=1000000007;
  public static void main(String[] args){
     Scanner sc = new Scanner(System.in);
     int n=sc.nextInt();
@@ -49,7 +49,7 @@ public class Test
                     }
                 }
             }
-            ans=((ans%1000000007)*(count%1000000007))%1000000007;
+            ans=((ans%M)*(count%M))%M;
         }
     }
  System.out.println(ans);
