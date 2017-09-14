@@ -1,0 +1,177 @@
+import java.util.*;
+public class JavaApplication7 {
+static boolean preced(char a,char b){
+    if(a=='^'&&b=='^'){
+        return false;
+    }
+    else if(a=='^'&&b=='/'){
+        return true;
+    }
+     else if(a=='^'&&b=='*'){
+        return true;
+    }
+     else if(a=='^'&&b=='+'){
+        return true;
+    }
+     else if(a=='^'&&b=='-'){
+       return true; 
+    }
+    else if(a=='/'&&b=='/'){
+        return true;
+    }
+    else if(a=='/'&&b=='^'){
+        return false;
+        
+    }
+    else if(a=='/'&&b=='*'){
+        return true;
+    }
+    else if(a=='/'&&b=='+'){
+        return true;
+    }
+    else if(a=='/'&&b=='-'){
+        return true;
+    }
+     else if(a=='*'&&b=='*'){
+        return true;
+    }
+      else if(a=='*'&&b=='^'){
+        return false;
+    }
+      else if(a=='*'&&b=='/'){
+        return false;
+        
+    }
+      else if(a=='*'&&b=='+'){
+        return true;
+    }
+      else if(a=='*'&&b=='-'){
+        return true;
+    }
+     else if(a=='+'&&b=='+'){
+        return true;
+    }
+      else if(a=='+'&&b=='^'){
+        return false;
+    }  else if(a=='+'&&b=='/'){
+        return false;
+        
+    }  else if(a=='+'&&b=='*'){
+        return false;
+    }  else if(a=='+'&&b=='-'){
+        return true;
+    }
+     else if(a=='-'&&b=='-'){
+        return true;    }
+    else if(a=='-'&&b=='^'){
+      return false;  
+    }
+    else if(a=='-'&&b=='*'){
+        return false;
+    }
+    else if(a=='-'&&b=='/'){
+        return false;
+    }
+    else if(a=='-'&&b=='+'){
+        return true;
+    }
+    return false;
+}
+    public static void main(String[] args) {
+        
+        Scanner sc=new Scanner(System.in);
+        int h=0;
+        Stack pst=new Stack();
+        String st=sc.next();
+        
+        st = st.replace("^", "~^~");
+st = st.replace("/", "~/~");
+st = st.replace("*", "~*~");
+st = st.replace("+", "~+~");
+st = st.replace("-", "~-~");
+String[] inp=st.split("~"); 
+int n=inp.length;
+String[] str=new String[n];
+     
+     for(int i=0;i<n;i++){
+       if((inp[i].compareTo("^")==0)||(inp[i].compareTo("/")==0)||(inp[i].compareTo("*")==0)||(inp[i].compareTo("+")==0)||(inp[i].compareTo("-")==0)){
+          if((!pst.empty())&&((pst.peek().toString().charAt(0)=='^')||(pst.peek().toString().charAt(0)=='/')||(pst.peek().toString().charAt(0)=='*')||(pst.peek().toString().charAt(0)=='+')||(pst.peek().toString().charAt(0)=='-'))){
+         if(preced(pst.peek().toString().charAt(0),inp[i].charAt(0))){
+             while((!pst.empty())&&preced(pst.peek().toString().charAt(0),inp[i].charAt(0))){
+                 str[h]=pst.pop().toString();
+                 h++;
+             }
+                 pst.push(inp[i]);
+                 
+             }
+         else{
+              pst.push(inp[i]);
+          }
+         
+         }
+          else{
+              pst.push(inp[i]);
+          }
+       }
+       else{
+           str[h]=inp[i];
+           h++;
+       }
+      }
+      while(!pst.empty()){
+          str[h]=pst.pop().toString();
+          h++;
+         }
+      System.out.print("Postfix: ");
+     for(int i=0;i<n;i++){
+         
+         System.out.print(str[i]+" ");
+     }
+     Stack res=new Stack();
+     
+  for(int i=0;i<n;i++){
+      if(res.empty()){
+          res.push(str[i]);
+          
+      
+      }
+      else{
+          
+          if(str[i].compareTo("^")==0){
+              int k=Integer.parseInt(res.pop().toString());
+              int j=Integer.parseInt(res.pop().toString());
+              int a=(int)Math.pow(j,k);
+              res.push(a);
+          }
+          else if(str[i].compareTo("/")==0){
+              int k=Integer.parseInt(res.pop().toString());
+              int j=Integer.parseInt(res.pop().toString());
+              int a=j/k;
+              res.push(a);
+          }
+           else if(str[i].compareTo("*")==0){
+              int k=Integer.parseInt(res.pop().toString());
+              int j=Integer.parseInt(res.pop().toString());
+              int a=j*k;
+              res.push(a);
+          }
+           else if(str[i].compareTo("+")==0){
+              int k=Integer.parseInt(res.pop().toString());
+              int j=Integer.parseInt(res.pop().toString());
+              int a=j+k;
+              res.push(a);
+          }
+           else if(str[i].compareTo("-")==0){
+              int k=Integer.parseInt(res.pop().toString());
+              int j=Integer.parseInt(res.pop().toString());
+              int a=j-k;
+              res.push(a);
+          }
+           else{
+               res.push(str[i]);
+           }
+      }
+  }
+  System.out.println("\nans="+res.pop());
+    }
+   }
