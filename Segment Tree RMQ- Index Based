@@ -1,0 +1,142 @@
+import java.util.*;
+import java.io.*;
+class SegmentTree
+{
+    int a[];
+    int tree[];
+    int n;
+    int max(int x,int y)
+    {
+        return (a[x]>=a[y])?x:y;
+    }
+    SegmentTree(int arr[])
+    {   a=arr;
+        n=arr.length;
+        tree=new int[5*n];
+    }
+    void build(int node, int start, int end)
+{
+    if(start == end)
+    {
+ 
+        tree[node] = start;
+    }
+    else
+    {
+        int mid = start+(end-start)/2;
+ 
+        build(2*node, start, mid);
+       
+        build(2*node+1, mid+1, end);
+   
+        tree[node] = max(tree[2*node] , tree[2*node+1]);
+    }
+}
+    void update(int node, int start, int end, int idx, int val)
+{
+    if(start == end)
+    {
+        
+        a[idx] = val;
+        tree[node] = idx;
+    }
+    else
+    {
+        int mid = start+(end-start)/2;
+        if(start <= idx && idx <= mid)
+        {
+ 
+            update(2*node, start, mid, idx, val);
+        }
+        else
+        {
+ 
+            update(2*node+1, mid+1, end, idx, val);
+        }
+ 
+        tree[node] = max(tree[2*node],tree[2*node+1]);
+    }
+}
+  int query(int node, int start, int end, int l, int r)
+ {
+    if(r < start || end < l)
+    {
+ 
+        return 0;
+    }
+    if(l <= start && end <= r)
+    {
+ 
+        return tree[node];
+    }
+ 
+    int mid = start+(end-start)/2;
+    int p1 = query(2*node, start, mid, l, r);
+    int p2 = query(2*node+1, mid+1, end, l, r);
+    return max(p1,p2);
+}  
+}
+public class Test 
+{
+    static long ans=0;
+static void solve(SegmentTree tree, int l,int r,int L,int R,int n)
+{
+    
+    int i;
+    if((l>=1&&l<=n)&&(r>=1&&r<=n)&&(l<=r))
+    {
+       
+        i=tree.query(1, 1, n, l, r);
+
+        if(tree.a[i]>=L&&tree.a[i]<=R)
+        {     
+            ans=ans+(r-i)*(i-l+1)+(i-l+1);
+            solve(tree,i+1,r,L,R,n);
+            solve(tree,l,i-1,L,R,n);
+        }
+        else
+        {
+            solve(tree,i+1,r,L,R,n);
+            solve(tree,l,i-1,L,R,n);
+        }
+    }
+ 
+   
+}
+    public static void main(String args[] ) throws IOException
+    {
+Reader sc=new Reader();
+int n=sc.nextInt();
+int q=sc.nextInt();
+int L=sc.nextInt();
+int R=sc.nextInt();
+int arr[]=new int[n+1];
+arr[0]=Integer.MIN_VALUE;
+SegmentTree tree=new SegmentTree(arr);
+tree.build(1, 1, n);
+int a,b,l,r,c,i,n1,n2;
+while(q-->0)
+{
+    c=sc.nextInt();
+    if(c==1)
+    {
+        a=sc.nextInt();
+        b=sc.nextInt();
+        tree.update(1, 1, n, a, b);
+  
+    }
+    else 
+    {  
+        l=sc.nextInt();
+        r=sc.nextInt();
+        solve(tree,l,r,L,R,n);
+        System.out.println(ans);
+        ans=0;
+    }
+    
+}
+ 
+ 
+ 
+}
+}
