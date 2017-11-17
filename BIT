@@ -17,7 +17,7 @@ class Bit
             bit[p]=(bit[p]%M+v%M+M)%M;
         }
     }
-    void update(int l,int r,long v)
+    void update(int l,int r,long v)    // Adds v from l to r
     {
         update(l,v);
         update(r+1,-v);
